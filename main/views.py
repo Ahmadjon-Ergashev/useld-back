@@ -36,6 +36,7 @@ def send_message(TELEGRAM_API_URL, method, data, files=None):
 
 
 def send_info(request):
+    print(request.data)
     if request.method == "POST":
         TELEGRAM = Telegram.objects.last()
         TOKEN = TELEGRAM.bot_token
@@ -51,8 +52,9 @@ def send_info(request):
         message += f"*Mail:*: {email}\n"
         message += f"*Message*: {message}\n"
 
-        return send_message(
+        response = send_message(
             TELEGRAM_API_URL,
             "sendMessage",
             {"chat_id": GROUP_ID, "text": message, "parse_mode": "Markdown"},
         )
+        print(response.status_code)
