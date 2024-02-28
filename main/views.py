@@ -1,5 +1,6 @@
 import requests
-from rest_framework import viewsets
+from rest_framework import viewsets, status
+from rest_framework.response import Response
 from .models import Banner, Responsibility, GettingStarter, Platform, Telegram
 from .serializers import (
     BannerSerializer,
@@ -36,7 +37,6 @@ def send_message(TELEGRAM_API_URL, method, data, files=None):
 
 
 def send_info(request):
-    print(request.data)
     if request.method == "POST":
         TELEGRAM = Telegram.objects.last()
         TOKEN = TELEGRAM.bot_token
@@ -45,16 +45,20 @@ def send_info(request):
 
         name = request.POST.get("name")
         email = request.POST.get("email")
-        message = request.POST.get("message")
+        text = request.POST.get("message")
+        phone = request.POST.get("phone")
 
         message = "*New Message:*\n"
-        message += f"*Name*: {name}\n"
-        message += f"*Mail:*: {email}\n"
-        message += f"*Message*: {message}\n"
+        message += f"👤 *Name*: {name}\n"
+        message += f"✉️ *Mail:*: {email}\n"
+        message += f"📞 *Phone*: {phone}\n"
+        message += f"💬 *Message*: {text}\n"
 
         response = send_message(
             TELEGRAM_API_URL,
             "sendMessage",
             {"chat_id": GROUP_ID, "text": message, "parse_mode": "Markdown"},
         )
-        print(response.status_code)
+        if response.status_code == 200:
+            return Response({"message": "Message Sent Successfully"}, status.HTTP_200_OK)
+    return Response({"message": "Message Not Sent"}, status.HTTP_400_BAD_REQUEST)
