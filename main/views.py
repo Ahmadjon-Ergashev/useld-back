@@ -1,6 +1,6 @@
 import requests
-from rest_framework import viewsets, status
-from rest_framework.response import Response
+from django.http import JsonResponse, HttpResponseBadRequest
+from rest_framework import viewsets
 from .models import Banner, Responsibility, GettingStarter, Platform, Telegram
 from .serializers import (
     BannerSerializer,
@@ -60,5 +60,5 @@ def send_info(request):
             {"chat_id": GROUP_ID, "text": message, "parse_mode": "Markdown"},
         )
         if response.status_code == 200:
-            return Response({"message": "Message Sent Successfully"}, status.HTTP_200_OK)
-    return Response({"message": "Message Not Sent"}, status.HTTP_400_BAD_REQUEST)
+            return JsonResponse({"message": "Message Sent Successfully"})
+    return HttpResponseBadRequest("Message Not Sent", status=400)
