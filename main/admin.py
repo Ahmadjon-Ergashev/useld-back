@@ -1,7 +1,7 @@
 from django.contrib import admin
 from parler.admin import TranslatableAdmin
 
-from .models import Banner, Responsibility, GettingStarter, Platform
+from .models import Banner, Responsibility, GettingStarter, Platform, Telegram
 # Register your models here.
 
 class BannerAdmin(TranslatableAdmin):
@@ -28,4 +28,4 @@ admin.site.register(Banner, BannerAdmin)
 admin.site.register(Responsibility, ResponsibilityAdmin)
 admin.site.register(GettingStarter, GettingStarterAdmin)
 admin.site.register(Platform, PlatformAdmin)
-
+admin.site.register(Telegram)

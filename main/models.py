@@ -41,3 +41,10 @@ class Platform(models.Model):
     
     def __str__(self):
         return self.title
+
+class Telegram(models.Model):
+    group_id = models.CharField(max_length=100)
+    bot_token = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.group_id

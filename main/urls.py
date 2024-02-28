@@ -6,6 +6,7 @@ from .views import (
     ResponsibilityViewSet,
     GettingStarterViewSet,
     PlatformViewSet,
+    send_info,
 )
 
 router = DefaultRouter()
@@ -16,4 +17,5 @@ router.register("platforms", PlatformViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("send-info/", send_info, name="send-info"),
 ]
